@@ -7,6 +7,9 @@
   // Variabili di layout condivise per allineamento
   let yBaseBarre;
 
+  // Variabile per l'animazione del bottone ranking
+  let diametroRank = 100;
+
 //CONFIGURAZIONE INIZIALE ASINCRONA
 // Uso "async" perché devo aspettare che il file CSV sia completamente caricato prima di iniziare a disegnare
   async function setup() {
@@ -24,8 +27,6 @@
   let indicePaese = int (params.id); // Trasforma il testo dell'ID in un numero intero
   datiPaese = myTable.getRow (indicePaese); // Estrae la riga esatta di quel paese dal dataset
 
-  noLoop(); // Blocco il loop continuo per disegnare la schermata una sola volta
-  redraw(); // Eseguo il disegno iniziale
 }
 
 //CICLO DI DISEGNO PRINCIPALE
@@ -68,6 +69,13 @@ function data () {
     let xInizio = 120;
     let yInizio = 120;
 
+    // HOVER SUL BOTTONE RANKING:
+    if (dist(mouseX, mouseY, xInizio, yInizio) < 50) {
+      diametroRank = 110; // Si allarga quando sono sopra x bottone
+    } else {
+      diametroRank = 100;
+    }
+
     push ();
     translate (xInizio,yInizio) // Vado alla posizione iniziale del testo 
 
@@ -76,7 +84,7 @@ function data () {
         noFill ();
         stroke('white'); 
         strokeWeight(3);
-        ellipse(0, 0, 100, 100);
+        ellipse(0, 0, diametroRank, diametroRank);
 
         // Numero del rank dentro il cerchio
         fill('white');
@@ -289,3 +297,12 @@ function data () {
         pop();
         
     }
+
+// FUNZIONE CLICK PER TORNARE INDIETRO
+    function mousePressed() {
+    // Se clicco dentro il cerchio del ranking
+    if (dist(mouseX, mouseY, 120, 120) < 50) {
+    // reindirizzo alla pagina principale passando un parametro URL
+       window.location.href = "index.html?view=all"; 
+  }
+}
