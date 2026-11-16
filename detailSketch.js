@@ -40,7 +40,7 @@
 
   // 2. Glifo Rosone nella zona centrale-sinistra
     let xCentroGlifo = windowWidth * 0.34;
-    let yCentroGlifo = windowHeight * 0.62;
+    let yCentroGlifo = windowHeight * 0.55;
     let raggioRosone = 250;
     disegnaRosone(datiPaese, xCentroGlifo, yCentroGlifo, raggioRosone);
 
@@ -128,8 +128,8 @@ function data () {
         textFont('Helvetica');
         fill('white'); 
         textStyle (NORMAL);
-        text("Popolazione totale: " + popTotale, xTesti + 3.5, yInizio + 110);
-        text("Cristiani totali: " +popCristiani, xTesti + 3.5, yInizio + 130);
+        text("Total population: " + popTotale, xTesti + 3.5, yInizio + 110);
+        text("Number of christians: " +popCristiani, xTesti + 3.5, yInizio + 130);
 
     // WWL TOTAL SCORE
         // Posizione  blocco totale sulla destra 
@@ -164,7 +164,7 @@ function data () {
             "Community life:        " + nf(scoreCommunity, 0, 1) + "\n" +
             "National life:             " + nf(scoreNational, 0, 1) + "\n" +
             "Church life:              " + nf(scoreChurch, 0, 1) + "\n" +
-            "Violence score:        " + nf(scoreViolence, 0, 1) + "\n\n" +
+            "Violence score:        " + nf(scoreViolence, 0, 1) + "\n\n\n\n\n" +
             "Total score:"
         text(testoDettaglio, 0, 0);
         pop(); 
@@ -196,11 +196,11 @@ function data () {
         // Definisco i colori dei cerchi con un array
         let coloriBase = [
             [135, 9, 227],   
-            [9, 227, 222],  
-            [203, 227, 9],  
-            [227, 87, 9],  
-            [69, 104, 175],  
-            [146, 9, 13],
+            [900, 227, 222],  
+            [100, 100, 90],  
+            [200, 100, 200],  
+            [20, 104, 175],  
+            [100, 200, 100],
             ];
  
         push ();
@@ -240,7 +240,7 @@ function data () {
             // Disegna l'ellisse spostando il suo centro a metà lunghezza, affinchè parta dal centro del rosone.
             ellipse(dimensionePetalo / 2, 0, larghezzaEllisse, altezzaEllisse);
             pop();
-            }
+        }
 
             // Cerchietto centrale di chiusura
             fill(0);
@@ -261,50 +261,86 @@ function data () {
             "Violence score"
         ];
 
-        let coloriBase = [
+        // colori delle sfere della vita
+            let coloriBase = [
             [135, 9, 227],   
-            [9, 227, 222],  
-            [203, 227, 9],  
-            [227, 87, 9],  
-            [69, 104, 175],  
-            [146, 9, 13]
-        ];
+            [900, 227, 222],  
+            [100, 100, 90],  
+            [200, 100, 200],  
+            [20, 104, 175],  
+            [100, 200, 100],
+            ];
+
+        // Livelli di persecuzione
+        let livelli = [
+        { testo: "Extreme", colore: '#e32c07' },
+        { testo: "Very high", colore: '#F25E13' },
+        { testo: "High", colore: '#f89e3e' }
+    ];
+
         push();
         // Posiziono la legenda in basso a sinistra, sotto al rosone
         let startX = 120;
-        let yLegenda = windowHeight - 60;
-        let larghezzaColonna = 165; // Distanza tra un elemento e l'altro
+        let y1 = windowHeight - 100; // Riga superiore (Spheres)
+        let y2 = windowHeight - 50; // Riga inferiore (Persecution)
 
         // Titolino
-        fill('white');
+        fill(255);
         noStroke();
         textFont('Helvetica');
-        textSize(11);
+        textSize(14);
         textStyle(BOLD);
         textAlign(LEFT, CENTER);
-        text("LEGENDA PARAMETRI:", startX, yLegenda - 25);
+        text("LEGENDA", startX, y1-40);
 
-        // .lenght = conta quanti elementi ci sono nella lista
+        // Spheres of Life
+        fill(200);
+        noStroke();
+        textFont('Helvetica');
+        textSize(12);
+        textStyle(BOLD);
+        textAlign(LEFT, CENTER);
+        text("Spheres of Life", startX, y1-18);
+
+        // Ciclo per disegnare le 6 sfere della vita
         for (let i = 0; i < nomiParametri.length; i++) { 
-        let x = startX + (i * larghezzaColonna);
+        let x = startX + (i * 150);
 
-        // Quadratino colorato affianco
         fill(coloriBase[i][0], coloriBase[i][1], coloriBase[i][2]);
         noStroke();
         rectMode(CORNER);
-        rect(x, yLegenda - 6, 12, 12, 2);
+        rect(x, y1, 12, 12, 2);
 
-        // Nome del parametro
-        fill(220);
+        fill(200);
         textFont('Helvetica');
         textSize(11);
         textStyle(NORMAL);
         textAlign(LEFT, CENTER);
-        text(nomiParametri[i], x + 20, yLegenda);
+        text(nomiParametri[i], x + 20, y1+6);
+    }
+
+        // Persecution Levels
+        fill(200);
+        textFont('Helvetica');
+        textSize(11);
+        textStyle(BOLD);
+        text("Persecution Levels:", startX, y2-18);
+
+        for (let j = 0; j < livelli.length; j++) {
+        let x = startX + (j * 150);
+        fill(livelli[j].colore);
+        noStroke();
+        rectMode(CORNER);
+        rect(x, y2, 12, 12, 2);
+
+        fill(200);
+        textFont('Helvetica');
+        textSize(11);
+        textStyle(NORMAL);
+        text(livelli[j].testo, x+20, y2+6);
         }
         pop();
-        
-    }
+}
 
 // FUNZIONE CLICK PER TORNARE INDIETRO
     function mousePressed() {
