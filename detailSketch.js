@@ -56,6 +56,7 @@ function data () {
     let regionePaese = datiPaese.getString ("region") 
     let popTotale = datiPaese.getNum("total_population");
     let popCristiani = datiPaese.getNum("number_of_christians_wcd+od");
+    let totalScore = datiPaese.getNum("total_score_2025");
 
     // Estrae dei singoli punteggi delle 6 sfere
     let scorePrivate = datiPaese.getNum("private_life_score");
@@ -76,18 +77,26 @@ function data () {
       diametroRank = 100;
     }
 
+    // colore x score   
+    let coloreScore = '#f89e3e'; 
+    if (totalScore >= 80) {
+    coloreScore = '#e32c07'; 
+    } else if (totalScore >= 60) {
+    coloreScore = '#F25E13'; 
+    }
+
     push ();
     translate (xInizio,yInizio) // Vado alla posizione iniziale del testo 
 
     // RANKING:
         // Cerchio di sfondo
         noFill ();
-        stroke('white'); 
+        stroke(coloreScore); 
         strokeWeight(3);
         ellipse(0, 0, diametroRank, diametroRank);
 
         // Numero del rank dentro il cerchio
-        fill('white');
+        fill(coloreScore);
         noStroke();
         textFont('Helvetica');
         textSize(36);
@@ -163,11 +172,10 @@ function data () {
         // Valore numerico grande sotto sotto
         push ();
         translate (xTotale, yBaseBarre+130)
-        fill('white');
+        fill(coloreScore);
         textSize(400);
         textStyle(BOLD);
-        textAlign(LEFT, BOTTOM);
-        let totalScore = datiPaese.getNum("total_score_2025"); 
+        textAlign(LEFT, BOTTOM); 
         text(nf(totalScore, 0, 0), 0, 0);
         pop();
 }
